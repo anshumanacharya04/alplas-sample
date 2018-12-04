@@ -7,14 +7,6 @@ const rows=[
     { id: 1, name: '', status: ''},
 ];
 
-const somePositions = [{
-  id: 0,
-  name: 0
-}, {
-  id: 1,
-  name: 1
-}];
-
 class Categories extends Component {
   constructor(props) {
     super(props);

@@ -188,7 +188,7 @@ class SubCategories extends Component {
         <div>
           <label htmlFor="subname">New Sub Category Name: </label>
           <input type="text" id="subname" name="subname" value={this.state.newSubCategorieName} onChange={() => this.changeName(event)}></input>
-          &nbsp;&nbsp;&nbsp;|||&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <label>Select Category: </label>
           <div style={divStyle}>
           <Select

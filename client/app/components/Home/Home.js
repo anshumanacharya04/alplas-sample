@@ -1,105 +1,140 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 
+import {
+  setInStorage,
+  getFromStorage,
+} from '../../utils/storage';
+
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      counters: []
+      isLoading : true,
+      token: '',
+      signInError:'',
+      signInEmail:'',
+      signInPassword:''
     };
 
-    this.newCounter = this.newCounter.bind(this);
-    this.incrementCounter = this.incrementCounter.bind(this);
-    this.decrementCounter = this.decrementCounter.bind(this);
-    this.deleteCounter = this.deleteCounter.bind(this);
+    this.onTextboxChangesignInEmail = this.onTextboxChangesignInEmail.bind(this);
+    this.onTextboxChangesignInPassword = this.onTextboxChangesignInPassword.bind(this);
 
-    this._modifyCounter = this._modifyCounter.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/counters')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          counters: json
+    const obj = getFromStorage('the_main_app'); 
+    if (obj && obj.token) {
+      const { token } = obj;
+      // Verify token
+      fetch('/api/account/verify?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              isLoading: false
+            });
+          } else {
+            this.setState({
+              isLoading: false,
+            });
+          }
         });
-      });
-  }
-
-  newCounter() {
-    fetch('/api/counters', { method: 'POST' })
-      .then(res => res.json())
-      .then(json => {
-        let data = this.state.counters;
-        data.push(json);
-
-        this.setState({
-          counters: data
-        });
-      });
-  }
-
-  incrementCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}/increment`, { method: 'PUT' })
-      .then(res => res.json())
-      .then(json => {
-        this._modifyCounter(index, json);
-      });
-  }
-
-  decrementCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}/decrement`, { method: 'PUT' })
-      .then(res => res.json())
-      .then(json => {
-        this._modifyCounter(index, json);
-      });
-  }
-
-  deleteCounter(index) {
-    const id = this.state.counters[index]._id;
-
-    fetch(`/api/counters/${id}`, { method: 'DELETE' })
-      .then(_ => {
-        this._modifyCounter(index, null);
-      });
-  }
-
-  _modifyCounter(index, data) {
-    let prevData = this.state.counters;
-
-    if (data) {
-      prevData[index] = data;
     } else {
-      prevData.splice(index, 1);
+      this.setState({
+        isLoading : false,
+      })
     }
+  }
+
+  onTextboxChangesignInEmail(event){
+    this.setState({
+      signInEmail : event.target.value
+    })
+  }
+
+  onTextboxChangesignInPassword(event){
+    this.setState({
+      signInPassword : event.target.value
+    })
+  }
+
+  onSignIn(){
+    // Grab state
+    const {
+      signInEmail,
+      signInPassword,
+    } = this.state;
 
     this.setState({
-      counters: prevData
+      isLoading: true,
     });
+
+    // Post request to backend
+    fetch('/api/account/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: signInEmail,
+        password: signInPassword,
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          setInStorage('the_main_app', { token: json.token });
+          this.setState({
+            signInError: json.message,
+            isLoading: false,
+            signInPassword: '',
+            signInEmail: '',
+            token: json.token,
+          });
+        } else {
+          this.setState({
+            signInError: json.message,
+            isLoading: false,
+          });
+        }
+      });
   }
 
   render() {
+    const {
+      isLoading,
+      token,
+      signInError,
+      signInEmail,
+      signInPassword,
+    } = this.state;
+
+    if(isLoading){
+      return(<div><p>Loading ...</p></div>)
+    }
+
+    if(!token){
+      return(
+        <div>
+          {
+            (signInError) ? (
+              <p>{signInError}</p>
+            ) : (null)
+          }
+          <p>Sign In</p>
+          <input type="email" placeholder="Email" value={signInEmail} onChange={this.onTextboxChangesignInEmail}/><br></br><br></br>
+          <input type="password" placeholder="Password" value={signInPassword} onChange={this.onTextboxChangesignInPassword}/><br></br><br></br>
+          <button onClick={this.onSignIn}>Sign In</button>
+        </div>
+      )
+    }
     return (
       <>
-        <p>Counters:</p>
-
-        <ul>
-          { this.state.counters.map((counter, i) => (
-            <li key={i}>
-              <span>{counter.count} </span>
-              <button onClick={() => this.incrementCounter(i)}>+</button>
-              <button onClick={() => this.decrementCounter(i)}>-</button>
-              <button onClick={() => this.deleteCounter(i)}>x</button>
-            </li>
-          )) }
-        </ul>
-
-        <button onClick={this.newCounter}>New counter</button>
+      <div>hello</div>
       </>
     );
   }

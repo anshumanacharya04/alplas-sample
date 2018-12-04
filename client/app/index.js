@@ -15,9 +15,11 @@ import Home from './components/Home/Home';
 
 import HelloWorld from './components/HelloWorld/HelloWorld';
 
-import Categories from './components/Categories/Categories';
+import Categories from './components/1325/Categories/Categories';
 
-import SubCategories from './components/SubCategories/SubCategories';
+import SubCategories from './components/1325/SubCategories/SubCategories';
+
+import SubSubCategories from './components/1325/SubSubCategories/SubSubCategories';
 
 import './styles/styles.scss';
 
@@ -27,8 +29,9 @@ render((
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route path="/helloworld" component={HelloWorld}/>
-        <Route path="/categories" component={Categories}/>
-        <Route path="/subcategories" component={SubCategories}/>
+        <Route path="/1325/categories" component={Categories}/>
+        <Route path="/1325/subcategories" component={SubCategories}/>
+        <Route path="/1325/subsubcategories" component={SubSubCategories}/>
         <Route component={NotFound}/>
       </Switch>
     </App>

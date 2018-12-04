@@ -6,8 +6,8 @@ const SubCategoriesSchema = new mongoose.Schema({
     default: ""
   },
   status: {
-    type: Boolean,
-    default: true
+    type: Number,
+    default: 1
   },
   categoryname:{
     type: String,

@@ -1,49 +1,53 @@
 const SubSubCategorie = require('../../models/SubSubCategories');
 
 module.exports = (app) => {
-  app.get('/api/subsubcategories', (req, res, next) => {
+  app.get('/api/SubSubCategories', (req, res, next) => {
     SubSubCategorie.find()
       .exec()
-      .then((subsubcategorie) => res.json(subsubcategorie))
+      .then((SubSubCategorie) => res.json(SubSubCategorie))
       .catch((err) => next(err));
   });
 
-  app.post('/api/subsubcategories', function (req, res, next) {
+  app.post('/api/SubSubCategories', function (req, res, next) {
+    //console.log(req.body);
     const subsubcategorie = new SubSubCategorie();
-
+    subsubcategorie['name'] = req.body.name;
+    subsubcategorie['status'] = req.body.status;
+    subsubcategorie['subcategoryname'] = req.body.subcategoryname;
+    console.log(111,subsubcategorie['name'],subsubcategorie['subcategoryname']);
     subsubcategorie.save()
       .then(() => res.json(subsubcategorie))
       .catch((err) => next(err));
   });
 
-  app.delete('/api/subsubcategories/:id', function (req, res, next) {
+  app.delete('/api/SubSubCategories/:id', function (req, res, next) {
     SubSubCategorie.findOneAndRemove({ _id: req.params.id })
       .exec()
-      .then((subsubcategorie) => res.json())
+      .then((SubSubCategorie) => res.json())
       .catch((err) => next(err));
   });
 
-  app.put('/api/subsubcategories/:id/increment', (req, res, next) => {
-    SubSubCategorie.findById(req.params.id)
+  app.put('/api/SubSubCategories/:id/increment', (req, res, next) => {
+    SubSubSubCategorie.findById(req.params.id)
       .exec()
-      .then((subsubcategorie) => {
-        subsubcategorie.count++;
+      .then((SubSubCategorie) => {
+        SubSubCategorie.count++;
 
-        subsubcategorie.save()
-          .then(() => res.json(subsubcategorie))
+        SubSubCategorie.save()
+          .then(() => res.json(SubSubCategorie))
           .catch((err) => next(err));
       })
       .catch((err) => next(err));
   });
 
-  app.put('/api/subsubcategories/:id/decrement', (req, res, next) => {
+  app.put('/api/SubSubCategories/:id/decrement', (req, res, next) => {
     SubSubCategorie.findById(req.params.id)
       .exec()
-      .then((subsubcategorie) => {
-        subsubcategorie.count--;
+      .then((SubSubCategorie) => {
+        SubSubCategorie.count--;
 
-        subsubcategorie.save()
-          .then(() => res.json(subsubcategorie))
+        SubSubCategorie.save()
+          .then(() => res.json(SubSubCategorie))
           .catch((err) => next(err));
       })
       .catch((err) => next(err));
