@@ -21,6 +21,8 @@ import SubCategories from './components/1325/SubCategories/SubCategories';
 
 import SubSubCategories from './components/1325/SubSubCategories/SubSubCategories';
 
+import Admin from './components/1325/admin';
+
 import './styles/styles.scss';
 
 render((
@@ -29,6 +31,7 @@ render((
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route path="/helloworld" component={HelloWorld}/>
+        <Route path="/1325/admin" component={Admin}/>
         <Route path="/1325/categories" component={Categories}/>
         <Route path="/1325/subcategories" component={SubCategories}/>
         <Route path="/1325/subsubcategories" component={SubSubCategories}/>

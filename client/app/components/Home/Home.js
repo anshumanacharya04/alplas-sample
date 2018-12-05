@@ -1,141 +1,47 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
+import Particles from 'react-particles-js';
+import Typing from 'react-typing-animation';
 
-import {
-  setInStorage,
-  getFromStorage,
-} from '../../utils/storage';
+const particleOpt = {
+  particles:{
+    number:{
+      value: 100,
+      density: {
+        enable: true
+      }
+    }
+  }
+}
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading : true,
-      token: '',
-      signInError:'',
-      signInEmail:'',
-      signInPassword:''
+      counters: []
     };
 
-    this.onTextboxChangesignInEmail = this.onTextboxChangesignInEmail.bind(this);
-    this.onTextboxChangesignInPassword = this.onTextboxChangesignInPassword.bind(this);
-
-    this.onSignIn = this.onSignIn.bind(this);
   }
 
   componentDidMount() {
-    const obj = getFromStorage('the_main_app'); 
-    if (obj && obj.token) {
-      const { token } = obj;
-      // Verify token
-      fetch('/api/account/verify?token=' + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token,
-              isLoading: false
-            });
-          } else {
-            this.setState({
-              isLoading: false,
-            });
-          }
-        });
-    } else {
-      this.setState({
-        isLoading : false,
-      })
-    }
-  }
-
-  onTextboxChangesignInEmail(event){
-    this.setState({
-      signInEmail : event.target.value
-    })
-  }
-
-  onTextboxChangesignInPassword(event){
-    this.setState({
-      signInPassword : event.target.value
-    })
-  }
-
-  onSignIn(){
-    // Grab state
-    const {
-      signInEmail,
-      signInPassword,
-    } = this.state;
-
-    this.setState({
-      isLoading: true,
-    });
-
-    // Post request to backend
-    fetch('/api/account/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: signInEmail,
-        password: signInPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        if (json.success) {
-          setInStorage('the_main_app', { token: json.token });
-          this.setState({
-            signInError: json.message,
-            isLoading: false,
-            signInPassword: '',
-            signInEmail: '',
-            token: json.token,
-          });
-        } else {
-          this.setState({
-            signInError: json.message,
-            isLoading: false,
-          });
-        }
-      });
+    
   }
 
   render() {
-    const {
-      isLoading,
-      token,
-      signInError,
-      signInEmail,
-      signInPassword,
-    } = this.state;
-
-    if(isLoading){
-      return(<div><p>Loading ...</p></div>)
-    }
-
-    if(!token){
-      return(
-        <div>
-          {
-            (signInError) ? (
-              <p>{signInError}</p>
-            ) : (null)
-          }
-          <p>Sign In</p>
-          <input type="email" placeholder="Email" value={signInEmail} onChange={this.onTextboxChangesignInEmail}/><br></br><br></br>
-          <input type="password" placeholder="Password" value={signInPassword} onChange={this.onTextboxChangesignInPassword}/><br></br><br></br>
-          <button onClick={this.onSignIn}>Sign In</button>
-        </div>
-      )
-    }
     return (
-      <>
-      <div>hello</div>
-      </>
+      <div>
+        <div className="mainHomeText">
+        <h1 className="displayInline">Alplas Products</h1>
+          <h1>Specialist Importer and Supplier</h1>
+          of
+          <h1></h1>Plastic Drum Taps and Valves
+          fittings for Drums and IBC’s
+          <Particles
+            params={particleOpt}
+          />
+        </div>
+      </div>
     );
   }
 }
