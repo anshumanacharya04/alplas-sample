@@ -125,7 +125,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    
+		console.log('12345');
   }
 
   render() {
