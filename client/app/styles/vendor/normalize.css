@@ -560,7 +560,7 @@ textarea {
 
 .navbar-default .navbar-nav>li>a{
   color: white;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover{
@@ -587,7 +587,7 @@ textarea {
 
 .navbar-nav
 {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .particleBackground {
@@ -625,11 +625,19 @@ canvas {
   text-align: center;
 }
 
-.logoText{
-  font-size: 100px;
+.logoText a{
+  font-size: 80px;
   display: inline-block;
-  color: white;
+  color: white !important;
   margin: 10px;
+}
+
+.logoText a:hover{
+  text-decoration: none;
+}
+
+.logoText li{
+  list-style: none;
 }
 
 .displayInline{
@@ -696,4 +704,38 @@ a.list-group-item, button.list-group-item {
   color: white;
   text-decoration: underline;
   text-decoration-color: mediumturquoise;
+}
+
+.borderHeader{
+  border: 2px solid #f45e61;
+}
+
+.linearbackground{
+  background: linear-gradient(90deg, rgba(36,37,130,1) 15%, #212121 100%);
+  padding-bottom: 10px;
+}
+
+.sectionHeader h2{
+  font-size: 50px;
+  color: black !important;
+}
+
+.carousel ul{
+  margin-bottom: -20px;
+}
+
+.featuredProducts{
+  background: #ecf0f1;
+  color: black !important;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.separator
+{
+  border : solid 2px rgb(220, 83, 59);
+  border-radius: 100px;
+  margin-left: 47%;
+  margin-right: 47%;
+  margin-bottom: 20px;
 }

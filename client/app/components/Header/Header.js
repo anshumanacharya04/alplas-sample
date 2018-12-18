@@ -5,10 +5,10 @@ import {Navbar,Nav,NavItem,FormGroup,FormControl,Button,Glyphicon,InputGroup } f
 
 const Header = () => (
   
-  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  <Navbar collapseOnSelect expand="lg" bg="dark" id="xyz" variant="dark">
   <Navbar.Brand href="#">
-    <div>
-      <p className="logoText">ap</p>
+    <div className="logoText">
+      <a href="/">ap</a>
     </div>
   </Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -17,10 +17,10 @@ const Header = () => (
       <NavItem eventKey={1} href="/Products">
         Products & Services
       </NavItem>
-      <NavItem eventKey={1} href="#">
+      <NavItem eventKey={1} href="/AboutUs">
         About Us
       </NavItem>
-      <NavItem eventKey={1} href="#">
+      <NavItem eventKey={1} href="/ContactUs">
         Contact Us
       </NavItem>
       <Navbar.Form pullRight>
@@ -33,6 +33,9 @@ const Header = () => (
           </InputGroup>
         </FormGroup>
       </Navbar.Form>
+      <NavItem eventKey={1} href="#" className="borderHeader">
+        Get Advice
+      </NavItem>
     </Nav>
   </Navbar.Collapse>
 </Navbar>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Particles from 'react-particles-js';
-import Typing from 'react-typing-animation';
-import {Jumbotron,Button} from 'react-bootstrap';
+import {Jumbotron,Button,Panel} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import InfiniteCarousel from 'react-leaf-carousel';
 
 const particleOpt = {
 	particles: {
@@ -114,6 +115,8 @@ const particleOpt = {
 	retina_detect: true
 }
 
+const items = [0,1,2,3,4,5];
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -125,10 +128,20 @@ class Home extends Component {
   }
 
   componentDidMount() {
-		console.log('12345');
+		
   }
 
   render() {
+		var productList = items.map(function(i){
+			return <div> 
+								<Panel bsStyle="primary">
+									<Panel.Heading>
+										<Panel.Title componentClass="h3">Panel heading</Panel.Title>
+									</Panel.Heading>
+									<Panel.Body>i</Panel.Body>
+								</Panel> 
+							</div>;
+		})
     return (
       <div>
         <div className="mainHomeText">
@@ -149,6 +162,42 @@ class Home extends Component {
             params={particleOpt}
           />
         </div>
+				
+				<div className="section carousel featuredProducts">
+					<div className="sectionHeader mainHomeText">
+						<h2>Featured Products</h2>
+						<div className="separator"></div>
+					</div>
+					<InfiniteCarousel
+						breakpoints={[
+							{
+								breakpoint: 500,
+								settings: {
+									slidesToShow: 2,
+									slidesToScroll: 2,
+								},
+							},
+							{
+								breakpoint: 768,
+								settings: {
+									slidesToShow: 3,
+									slidesToScroll: 3,
+								},
+							},
+						]}
+						dots={true}
+						showSides={true}
+						sidesOpacity={.5}
+						sideSize={.1}
+						slidesToScroll={3}
+						slidesToShow={3}
+						scrollOnDevice={true}
+					>
+						{
+							productList
+						}
+					</InfiniteCarousel>
+				</div>
       </div>
     );
   }

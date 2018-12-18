@@ -15,6 +15,10 @@ const Header = () => (
     <nav>
       <Link to="/1325/SubSubCategories">Sub Sub Categories</Link>
     </nav>
+
+    <nav>
+      <Link to="/1325/Products">Products</Link>
+    </nav>
     <hr />
   </header>
 );

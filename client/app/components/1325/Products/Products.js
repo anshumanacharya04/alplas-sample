@@ -7,29 +7,24 @@ const rows=[
     { id: 1, name: '', status: ''},
 ];
 
-class Categories extends Component {
+class Products extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      newCategorieName: "",
-      categories : [],
+      newProductName: "",
+      products : [],
       rows,
       columns: this.initColumns()
     };
 
-    this.newcategorie = this.newcategorie.bind(this);
-    //this.changeName = this.changeName.bind(this);
+    this.newproduct = this.newproduct.bind(this);
 
-    //this.incrementcategorie = this.incrementcategorie.bind(this);
-    //this.decrementcategorie = this.decrementcategorie.bind(this);
-    //this.deletecategorie = this.deletecategorie.bind(this);
-
-    this._modifycategorie = this._modifycategorie.bind(this);
+    this._modifyproduct = this._modifyproduct.bind(this);
   }
 
   componentDidMount() {
-    fetch('/api/Categories')
+    fetch('/api/Products')
       .then(res => res.json())
       .then(json => {
         //console.log(123,json);
@@ -42,65 +37,65 @@ class Categories extends Component {
         });
         //console.log(tabledata);
         this.setState({
-          categories: json,
+          products: json,
           rows : tabledata
         });
       });
   }
 
-  newcategorie() {
+  newproduct() {
     //console.log(111);
-    fetch('/api/Categories', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify ({name: this.state.newCategorieName , status: 1}) })
+    fetch('/api/Products', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify ({name: this.state.newProductName , status: 1}) })
       .then(res => res.json())
       .then(json => {
         console.log(json);
-        let data = this.state.categories;
+        let data = this.state.products;
         data.push(json);
         this.setState({
-          categories: data
+          products: data
         });
       });
   }
 
   changeName(e){
     this.setState({
-      newCategorieName: e.target.value
+      newProductName: e.target.value
     });
   }
 
-  updateCategorieName(row,rowId,value)
+  updateProductName(row,rowId,value)
   {
-    var id = this.state.categories[rowId-1];
-    fetch(`/api/Categories/${id._id}/${value}/changeName`, { method: 'PUT' })
+    var id = this.state.products[rowId-1];
+    fetch(`/api/Products/${id._id}/${value}/changeName`, { method: 'PUT' })
       .then(res => res.json())
       .then(json => {
         //console.log(json);
-        //this._modifycategorie(rowId, json);
+        //this._modifyproduct(rowId, json);
       });
   }
 
-  updateCategorieStatus(row,rowId,value)
+  updateProductStatus(row,rowId,value)
   {
-    var id = this.state.categories[rowId-1];
-    fetch(`/api/Categories/${id._id}/${value}/changeStatus`, { method: 'PUT' })
+    var id = this.state.products[rowId-1];
+    fetch(`/api/Products/${id._id}/${value}/changeStatus`, { method: 'PUT' })
       .then(res => res.json())
       .then(json => {
         //console.log(json);
-        //this._modifycategorie(rowId, json);
+        //this._modifyproduct(rowId, json);
       });
   }
 
-  deletecategorie(index) {
-    const id = this.state.categories[index]._id;
+  deleteproduct(index) {
+    const id = this.state.products[index]._id;
 
-    fetch(`/api/Categories/${id}`, { method: 'DELETE' })
+    fetch(`/api/Products/${id}`, { method: 'DELETE' })
       .then(_ => {
-        this._modifycategorie(index, null);
+        this._modifyproduct(index, null);
       });
   }
 
-  _modifycategorie(index, data) {
-    let prevData = this.state.categories;
+  _modifyproduct(index, data) {
+    let prevData = this.state.products;
 
     if (data) {
       prevData[index] = data;
@@ -109,7 +104,7 @@ class Categories extends Component {
     }
 
     this.setState({
-      categories: prevData
+      products: prevData
     });
   }
 
@@ -122,9 +117,9 @@ class Categories extends Component {
       });
       //const row = this.state.rows.find( id  => id == rowId);
       if(field == "name")
-        this.updateCategorieName(row,rowId,value);
+        this.updateProductName(row,rowId,value);
       if(field == "status")
-        this.updateCategorieStatus(row,rowId,value);
+        this.updateProductStatus(row,rowId,value);
       // Change a value of a field
       row[field] = value;
       //console.log(rows);
@@ -169,14 +164,14 @@ class Categories extends Component {
   render() {
     return (
       <div>
-        <h4>Add new Categories</h4>
+        <h4>Add new Products</h4>
         <div>
           <label htmlFor="name">New Category Name: </label>
-          <input type="text" id="name" name="name" value={this.state.newCategorieName} onChange={() => this.changeName(event)}></input>
+          <input type="text" id="name" name="name" value={this.state.newProductName} onChange={() => this.changeName(event)}></input>
         </div>
-        <button disabled={!this.state.newCategorieName} onClick={() => this.newcategorie()}>Save</button>
+        <button disabled={!this.state.newProductName} onClick={() => this.newproduct()}>Save</button>
         <br></br>
-        <h4>List of Categories</h4>
+        <h4>List of Products</h4>
         <Grid 
                 columns={this.state.columns}
                 rows={this.state.rows}
@@ -189,4 +184,4 @@ class Categories extends Component {
   }
 }
 
-export default Categories;
+export default Products;
